@@ -1,0 +1,26 @@
+==========================================
+🚀 İKA PROJESİ HIZLI BAŞLATMA REHBERİ
+==========================================
+
+🛠️ 1. DERLEME (BUILD)
+-----------------------
+colcon build --packages-select ika_main
+source install/setup.bash
+
+🌍 2. SİMÜLASYONU AÇ (GAZEBO)
+-----------------------
+ros2 launch ika_main ika.launch.py
+
+🕹️ 3. MANUEL KONTROL (TELEOP)
+-----------------------
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
+
+🧠 4. OTONOM MODU BAŞLAT
+-----------------------
+ros2 run ika_main otonom_surus
+
+☁️ 5. GITHUB GÜNCELLEME
+-----------------------
+git add .
+git commit -m "Güncelleme yapıldı"
+git push origin ana
