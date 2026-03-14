@@ -1,26 +1,32 @@
-==========================================
-🚀 İKA PROJESİ HIZLI BAŞLATMA REHBERİ
-==========================================
+🚀 İKA PROJESİ GÜNCEL HIZLI BAŞLATMA REHBERİ (3D SÜRÜM)
+🧹 0. TEMİZLİK (İsteğe Bağlı - Hata alırsan veya loglar şişerse)
+cd ~/Desktop/ika && rm -rf build install log
 
-🛠️ 1. DERLEME (BUILD)
------------------------
+🛠️ 1. DERLEME (BUILD & SOURCE - Her kod değişiminde ŞART)
+cd ~/Desktop/ika
 colcon build --packages-select ika_main
 source install/setup.bash
-
-🌍 2. SİMÜLASYONU AÇ (GAZEBO)
------------------------
+cd ~/Desktop/ika && colcon build --packages-select ika_main && source install/setup.bash
+🌍 2. SİMÜLASYONU AÇ (GAZEBO ve ROBOTU YÜKLE)
 ros2 launch ika_main sim.launch.py
 
-🕹️ 3. MANUEL KONTROL (TELEOP)
------------------------
+👀 3. SENSÖR İŞLEME (3D'den 2D'ye Asfalt Filtresi)
+(Yeni terminalde)
+ros2 run ika_main sensor_isleme
+
+🧠 4. OTONOM SÜRÜŞ (PID Karar Mekanizması)
+(Yeni terminalde. Not: Eğer setup.py dosyasında adını otonom_surucu yaptıysan öyle çalıştır)
+ros2 run ika_main otonom_surus
+
+⚙️ 5. ANA KONTROL (Beyin - Motorlara İzin Ver)
+(Yeni terminalde. DİKKAT: Bu çalışmadan araç ASLA hareket etmez!)
+ros2 run ika_main ana_kontrol
+
+🕹️ 6. MANUEL KONTROL (TELEOP - Acil Durum / Test İçin)
+(Yeni terminalde)
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
 
-🧠 4. OTONOM MODU BAŞLAT
------------------------
-ros2 run ika_main otonom_surucu
-
-☁️ 5. GITHUB GÜNCELLEME
------------------------
+☁️ 7. GITHUB GÜNCELLEME (Yedekleme hayat kurtarır)
 git add .
-git commit -m "Güncelleme yapıldı"
-git push origin ana
+git commit -m "3D LiDAR ve Zırhlı Otonom Güncellemesi"
+git push origin main ana
