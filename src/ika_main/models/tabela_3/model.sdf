@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="tabela_3">
+    <static>true</static>
+    <link name="link">
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>0.01 0.4 0.4</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://tabela_3/materials/scripts</uri>
+            <uri>model://tabela_3/materials/textures</uri>
+            <name>Tabela3/Image</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

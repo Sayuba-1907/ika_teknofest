@@ -1,0 +1,13 @@
+material Tabela3/Image
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture tabela_3.png
+      }
+    }
+  }
+}

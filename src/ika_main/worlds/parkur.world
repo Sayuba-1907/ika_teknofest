@@ -1,0 +1,377 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="teknofest_parkur">
+    
+    <scene>
+      <ambient>0.8 0.8 0.8 1.0</ambient> 
+      <background>0.7 0.7 0.7 1.0</background>
+      <shadows>true</shadows>
+    </scene>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <model name="ana_yol">
+      <static>true</static>
+      <pose>0 0 0.005 0 0 0</pose> 
+      <include>
+        <uri>model://yol</uri>
+      </include>
+    </model>
+
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>5 -5 5 0 0.5 2.5</pose>
+      </camera>
+    </gui>
+
+    <model name="bariyer_1">
+      <static>true</static>
+      <pose>-0.068165 0.057319 0.0 0 0 0</pose> 
+      <link name="bariyer_link">
+        <visual name="bariyer_visual">
+          <geometry>
+            <mesh>
+              <uri>file:///home/salih/Desktop/ika/src/ika_main/meshes/bariyer.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name="bariyer_collision">
+          <geometry>
+            <mesh>
+              <uri>file:///home/salih/Desktop/ika/src/ika_main/meshes/bariyer.dae</uri>
+            </mesh>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="yan_egim_engeli">
+      <static>true</static>
+      <pose>0.024816 0.004860 0.0 0 0 0</pose>
+      <link name="yan_egim_link">
+        <visual name="yan_egim_visual">
+          <geometry>
+            <mesh>
+              <uri>file:///home/salih/Desktop/ika/src/ika_main/meshes/yan_egim.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name="yan_egim_collision">
+          <geometry>
+            <mesh>
+              <uri>file:///home/salih/Desktop/ika/src/ika_main/meshes/yan_egim.dae</uri>
+            </mesh>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="tum_tabelalar">
+      <static>true</static>
+      <pose>0.0 0.0 0.0 0 0 0</pose> 
+      <link name="tabela_link">
+        <visual name="tabela_visual">
+          <geometry>
+            <mesh>
+              <uri>file:///home/salih/Desktop/ika/src/ika_main/meshes/tabelalar.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name="tabela_collision">
+          <geometry>
+            <mesh>
+              <uri>file:///home/salih/Desktop/ika/src/ika_main/meshes/tabelalar.dae</uri>
+            </mesh>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="dik_egim_engeli">
+      <static>true</static>
+      <pose>0.004304 0.050766 0.002 0 0 0</pose>
+      <link name="dik_egim_link">
+        <visual name="dik_egim_visual">
+          <geometry>
+            <mesh>
+              <uri>file:///home/salih/Desktop/ika/src/ika_main/meshes/dik_egim.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name="dik_egim_collision">
+          <geometry>
+            <mesh>
+              <uri>file:///home/salih/Desktop/ika/src/ika_main/meshes/dik_egim.dae</uri>
+            </mesh>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="zemin_model">
+      <static>true</static>
+      <pose>0.0 0.0 0.002 0 0 0</pose>
+      <link name="zemin_link">
+        <visual name="zemin_visual">
+          <geometry>
+            <mesh>
+              <uri>file:///home/salih/Desktop/ika/src/ika_main/meshes/zemin.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name="zemin_collision">
+          <geometry>
+            <mesh>
+              <uri>file:///home/salih/Desktop/ika/src/ika_main/meshes/zemin.dae</uri>
+            </mesh>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+    <model name="cizgiler_model">
+      <static>true</static>
+      <pose>0.0 0.0 0.01 0 0 0</pose>
+      <link name="cizgiler_link">
+        <visual name="cizgiler_visual">
+          <geometry>
+            <mesh>
+              <uri>file:///home/salih/Desktop/ika/src/ika_main/meshes/cizgiler.dae</uri>
+            </mesh>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+
+<model name='turuncu_duba_1'>
+      <static>1</static>
+      <pose>-14.979692 10.315066 0.25 0 0 0</pose>
+      <link name='link'>
+        <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
+        <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
+        <material><ambient>1 0.3 0 1</ambient><diffuse>1 0.3 0 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name='turuncu_duba_2'>
+      <static>1</static>
+    <pose>-13.741222 8.522422 0.25 0 0 0</pose>
+      <link name='link'>
+        <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
+        <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
+        <material><ambient>1 0.3 0 1</ambient><diffuse>1 0.3 0 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name='turuncu_duba_3'>
+      <static>1</static>
+    <pose>-10.079129 10.292368 0.25 0 0 0</pose>
+      <link name='link'>
+        <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
+        <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
+        <material><ambient>1 0.3 0 1</ambient><diffuse>1 0.3 0 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name='turuncu_duba_4'>
+      <static>1</static>
+     <pose>-8.349025 9.968711 0.25 0 0 0</pose>
+      <link name='link'>
+        <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
+        <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
+        <material><ambient>1 0.3 0 1</ambient><diffuse>1 0.3 0 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name='turuncu_duba_5'>
+      <static>1</static>
+    <pose>-6.686280 8.308359 0.25 0 0 0</pose>
+      <link name='link'>
+        <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
+        <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
+        <material><ambient>1 0.3 0 1</ambient><diffuse>1 0.3 0 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name='turuncu_duba_6'>
+      <static>1</static>
+     <pose>-6.755006 10.217728 0.25 0 0 0</pose>
+      <link name='link'>
+        <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
+        <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
+        <material><ambient>1 0.3 0 1</ambient><diffuse>1 0.3 0 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name='turuncu_duba_7'>
+      <static>1</static>
+  <pose>-12.516414 10.488413 0.25 0 0 0</pose>
+      <link name='link'>
+        <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
+        <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
+        <material><ambient>1 0.3 0 1</ambient><diffuse>1 0.3 0 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name='turuncu_duba_8'>
+      <static>1</static>
+     <pose>-11.421117 8.554274 0.25 0 0 0</pose>
+      <link name='link'>
+        <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
+        <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
+        <material><ambient>1 0.3 0 1</ambient><diffuse>1 0.3 0 1</diffuse></material></visual>
+      </link>
+    </model>
+      <model name='dik_engel'>
+      <static>true</static>
+      <pose>-19.027800 9.522151 0.086901 0.001265 0.004090 0.003263</pose>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>0.2 3.0 0.15</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>0.2 3.0 0.15</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Red</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model><model name='dik_engel'>
+      <static>true</static>
+      <pose>-3.050042 -0.446562 0.084925 0.001265 0.004090 0.003263</pose>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>0.2 3.0 0.15</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>0.2 3.0 0.15</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Red</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model><model name='dik_engel'>
+      <static>true</static>
+      <pose>-3.050042 -0.446562 0.084925 0.001265 0.004090 0.003263</pose>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>0.2 3.0 0.15</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>0.2 3.0 0.15</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Red</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+   <model name='su_gecisi_havuzu'>
+      <static>true</static>
+      <pose>-3.259201 19.544897 0.01 0 0 -1.581752</pose>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>3.0 4.0 0.02</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>0.1</mu> <mu2>0.1</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>3.0 4.0 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Blue</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+            <ambient>0 0.5 0.8 1</ambient>
+            <diffuse>0 0.5 0.8 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+<model name='kayar_engel_fiziksel'>
+      <pose>-8.15 12.0 0.25 0 0 0</pose> 
+      <link name='link'>
+        <inertial> <mass>10.0</mass>
+          <inertia>
+            <ixx>0.1</ixx><ixy>0</ixy><ixz>0</ixz>
+            <iyy>0.1</iyy><iyz>0</iyz><izz>0.1</izz>
+          </inertia>
+        </inertial>
+        <collision name='collision'>
+          <geometry>
+            <box><size>1.0 0.2 0.5</size></box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box><size>1.0 0.2 0.5</size></box>
+          </geometry>
+          <material>
+            <ambient>1 1 0 1</ambient>
+            <diffuse>1 1 0 1</diffuse>
+          </material>
+        </visual>
+      </link>
+
+      <plugin name="obj_controller" filename="libgazebo_ros_planar_move.so">
+        <commandTopic>kayar_engel/cmd_vel</commandTopic>
+        <odometryTopic>kayar_engel/odom</odometryTopic>
+        <odometryFrame>odom</odometryFrame>
+        <odometryRate>20.0</odometryRate>
+        <robotBaseFrame>link</robotBaseFrame>
+      </plugin>
+    </model>
+  </world>
+</sdf>
