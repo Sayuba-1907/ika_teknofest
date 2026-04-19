@@ -30,3 +30,12 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 git add .
 git commit -m "3D LiDAR ve Zırhlı Otonom Güncellemesi"
 git push origin main ana
+
+
+
+GÜNCELLENMİŞ SON TERMİNAL TEK BUNA BAK YETER
+cd ~/Desktop/ika
+colcon build --packages-select ika_main
+source install/setup.bash
+cd ~/Desktop/ika && colcon build --packages-select ika_main && source install/setup.bash
+ros2 launch ika_main full_system.launch.py
