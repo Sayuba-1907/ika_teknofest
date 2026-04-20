@@ -1,0 +1,35 @@
+<?xml version='1.0'?>
+<sdf version='1.6'>
+  <model name='benim_kayar_engelim'>
+    <static>false</static> <link name='link'>
+      <inertial>
+        <mass>1.0</mass>
+      </inertial>
+      
+      <collision name='collision'>
+        <geometry>
+          <box>
+            <size>0.5 1.0 0.5</size> </box>
+        </geometry>
+      </collision>
+
+      <visual name='visual'>
+        <geometry>
+          <box>
+            <size>0.5 1.0 0.5</size>
+          </box>
+        </geometry>
+      </visual>
+    </link>
+
+    <plugin name="hareket_plugin" filename="libgazebo_ros_planar_move.so">
+      <ros>
+        <namespace>/engel</namespace>
+        <remapping>cmd_vel:=cmd_vel</remapping>
+      </ros>
+      <update_rate>50.0</update_rate>
+      <publish_odom>false</publish_odom>
+      <robot_base_frame>link</robot_base_frame>
+    </plugin>
+  </model>
+</sdf>

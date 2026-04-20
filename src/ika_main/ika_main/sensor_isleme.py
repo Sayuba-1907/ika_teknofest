@@ -20,8 +20,10 @@ class EasySensor(Node):
         points = np.array(points_list)
         if len(points) == 0: return
 
-        # 2. YOKUŞ AŞAĞI DOSTU FİLTRE (-0.45 yaparak yerdeki asfaltın girmesini engelledik)
-        mask = (points[:, 2] > -0.45) & (points[:, 2] < 0.40)
+        # 2. EĞİM DOSTU FİLTRE
+        # Yatay mesafe < 0.6m olan noktalar araç gövdesi veya eğimli zeminin kendisi olabilir
+        dist_xy = np.sqrt(points[:, 0]**2 + points[:, 1]**2)
+        mask = (points[:, 2] > -0.45) & (points[:, 2] < 0.40) & (dist_xy > 1.0)
         engel_noktalari = points[mask]
 
         # 3. 2D'ye çevir

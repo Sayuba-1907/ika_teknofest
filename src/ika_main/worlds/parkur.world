@@ -15,7 +15,11 @@
     <include>
       <uri>model://ground_plane</uri>
     </include>
-
+    <include>
+      <uri>model://benim_kayar_engelim</uri>
+      <name>kayar_engel_otomatik</name>
+      <pose>-13.915580 20.793696 0.254990 0 0 0</pose>
+    </include>
     <model name="ana_yol">
       <static>true</static>
       <pose>0 0 0.005 0 0 0</pose> 
@@ -149,7 +153,7 @@
       </link>
     </model>
 
-<model name='turuncu_duba_1'>
+    <model name='turuncu_duba_1'>
       <static>1</static>
       <pose>-14.979692 10.315066 0.25 0 0 0</pose>
       <link name='link'>
@@ -161,7 +165,7 @@
 
     <model name='turuncu_duba_2'>
       <static>1</static>
-    <pose>-13.741222 8.522422 0.25 0 0 0</pose>
+      <pose>-13.741222 8.522422 0.25 0 0 0</pose>
       <link name='link'>
         <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
         <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
@@ -171,7 +175,7 @@
 
     <model name='turuncu_duba_3'>
       <static>1</static>
-    <pose>-10.079129 10.292368 0.25 0 0 0</pose>
+      <pose>-10.079129 10.292368 0.25 0 0 0</pose>
       <link name='link'>
         <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
         <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
@@ -181,7 +185,7 @@
 
     <model name='turuncu_duba_4'>
       <static>1</static>
-     <pose>-8.349025 9.968711 0.25 0 0 0</pose>
+      <pose>-8.349025 9.968711 0.25 0 0 0</pose>
       <link name='link'>
         <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
         <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
@@ -191,7 +195,7 @@
 
     <model name='turuncu_duba_5'>
       <static>1</static>
-    <pose>-6.686280 8.308359 0.25 0 0 0</pose>
+      <pose>-6.686280 8.308359 0.25 0 0 0</pose>
       <link name='link'>
         <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
         <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
@@ -201,7 +205,7 @@
 
     <model name='turuncu_duba_6'>
       <static>1</static>
-     <pose>-6.755006 10.217728 0.25 0 0 0</pose>
+      <pose>-6.755006 10.217728 0.25 0 0 0</pose>
       <link name='link'>
         <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
         <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
@@ -211,7 +215,7 @@
 
     <model name='turuncu_duba_7'>
       <static>1</static>
-  <pose>-12.516414 10.488413 0.25 0 0 0</pose>
+      <pose>-12.516414 10.488413 0.25 0 0 0</pose>
       <link name='link'>
         <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
         <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
@@ -221,14 +225,15 @@
 
     <model name='turuncu_duba_8'>
       <static>1</static>
-     <pose>-11.421117 8.554274 0.25 0 0 0</pose>
+      <pose>-11.421117 8.554274 0.25 0 0 0</pose>
       <link name='link'>
         <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
         <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
         <material><ambient>1 0.3 0 1</ambient><diffuse>1 0.3 0 1</diffuse></material></visual>
       </link>
     </model>
-      <model name='dik_engel'>
+
+    <model name='dik_engel'>
       <static>true</static>
       <pose>-19.027800 9.522151 0.086901 0.001265 0.004090 0.003263</pose>
       <link name='link'>
@@ -253,32 +258,9 @@
           </material>
         </visual>
       </link>
-    </model><model name='dik_engel'>
-      <static>true</static>
-      <pose>-3.050042 -0.446562 0.084925 0.001265 0.004090 0.003263</pose>
-      <link name='link'>
-        <collision name='collision'>
-          <geometry>
-            <box>
-              <size>0.2 3.0 0.15</size>
-            </box>
-          </geometry>
-        </collision>
-        <visual name='visual'>
-          <geometry>
-            <box>
-              <size>0.2 3.0 0.15</size>
-            </box>
-          </geometry>
-          <material>
-            <script>
-              <name>Gazebo/Red</name>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-            </script>
-          </material>
-        </visual>
-      </link>
-    </model><model name='dik_engel'>
+    </model>
+
+    <model name='dik_engel'>
       <static>true</static>
       <pose>-3.050042 -0.446562 0.084925 0.001265 0.004090 0.003263</pose>
       <link name='link'>
@@ -304,7 +286,35 @@
         </visual>
       </link>
     </model>
-   <model name='su_gecisi_havuzu'>
+
+    <model name='dik_engel'>
+      <static>true</static>
+      <pose>-3.050042 -0.446562 0.084925 0.001265 0.004090 0.003263</pose>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <box>
+              <size>0.2 3.0 0.15</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <box>
+              <size>0.2 3.0 0.15</size>
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/Red</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name='su_gecisi_havuzu'>
       <static>true</static>
       <pose>-3.259201 19.544897 0.01 0 0 -1.581752</pose>
       <link name='link'>
@@ -340,38 +350,6 @@
         </visual>
       </link>
     </model>
-<model name='kayar_engel_fiziksel'>
-      <pose>-8.15 12.0 0.25 0 0 0</pose> 
-      <link name='link'>
-        <inertial> <mass>10.0</mass>
-          <inertia>
-            <ixx>0.1</ixx><ixy>0</ixy><ixz>0</ixz>
-            <iyy>0.1</iyy><iyz>0</iyz><izz>0.1</izz>
-          </inertia>
-        </inertial>
-        <collision name='collision'>
-          <geometry>
-            <box><size>1.0 0.2 0.5</size></box>
-          </geometry>
-        </collision>
-        <visual name='visual'>
-          <geometry>
-            <box><size>1.0 0.2 0.5</size></box>
-          </geometry>
-          <material>
-            <ambient>1 1 0 1</ambient>
-            <diffuse>1 1 0 1</diffuse>
-          </material>
-        </visual>
-      </link>
 
-      <plugin name="obj_controller" filename="libgazebo_ros_planar_move.so">
-        <commandTopic>kayar_engel/cmd_vel</commandTopic>
-        <odometryTopic>kayar_engel/odom</odometryTopic>
-        <odometryFrame>odom</odometryFrame>
-        <odometryRate>20.0</odometryRate>
-        <robotBaseFrame>link</robotBaseFrame>
-      </plugin>
-    </model>
   </world>
 </sdf>

@@ -4,114 +4,178 @@ from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 import math
 
+DURUM_DUZLUK       = 'DUZLUK'
+DURUM_DAR_KORIDOR  = 'DAR_KORIDOR'
+DURUM_VIRAJ_YAKLAS = 'VIRAJ_YAKLAS'
+DURUM_PID_IPTAL    = 'PID_IPTAL_KOR_DONUS' # Senin istediğin özel durum!
+DURUM_ENGEL        = 'ENGEL'
+DURUM_ACIL_DUR     = 'ACIL_DUR'
+
 class OtonomSurus(Node):
     def __init__(self):
         super().__init__('otonom_surus_node')
         self.subscription = self.create_subscription(LaserScan, '/scan_temiz', self.scan_callback, 10)
-        self.publisher = self.create_publisher(Twist, '/cmd_vel', 10)
-        self.get_logger().info('OTONOM SÜRÜŞ: PID KONTROLÜ VE VIRAJ İYİLEŞTİRMESİ AKTİF!')
-
-        # PID Katsayıları
-        self.kp = 0.6   # P: Hızlı tepki
-        self.ki = 0.05  # I: Uzun süreli hata düzeltme
-        self.kd = 0.8   # D: Oscillation önleme
+        self.publisher = self.create_publisher(Twist, '/cmd_vel_otonom', 10)
         
+        self.get_logger().info('OTONOM SURUS AKTIF (Bariyerlerde PID Iptal Mantigi)')
+
+        # PID Değişkenleri
+        self.onceki_hata    = 0.0
+        self.integral       = 0.0
+        self.INTEGRAL_LIMIT = 1.0 
+
+        # --- SENİN İSTEDİĞİN "DEVRE DIŞI BIRAKMA" KİLİTLERİ ---
+        self.pid_iptal_kilidi = False
+        self.sabit_donus_yonu = 0.0
+
+        # Engel
+        self.engel_donus_yonu = 0.0
+        self.engel_sayaci     = 0
+        self.ENGEL_ESIGI      = 10
+
+        self.son_durum = ''
+
+    def pid_sifirla(self):
+        self.integral    = 0.0
         self.onceki_hata = 0.0
-        self.integral_hata = 0.0
-        self.dead_band = 0.05  # Küçük hatalar için eşik
+
+    def adaptif_katsayilar(self, durum, hata_abs):
+        if durum == DURUM_ENGEL:
+            return 1.2, 0.0, 0.5
+        elif durum == DURUM_DAR_KORIDOR:
+            return (1.2, 0.0, 1.2) if hata_abs > 0.8 else (0.8, 0.01, 1.5)
+        elif durum == DURUM_VIRAJ_YAKLAS:
+            return 1.1, 0.01, 1.3
+        else:  # DUZLUK
+            if hata_abs > 1.2:   return 1.0, 0.0,   1.0
+            elif hata_abs > 0.4: return 0.7, 0.01,  1.4
+            else:                return 0.5, 0.02,  1.8
+
+    def pid_hesapla(self, hata, kp, ki, kd):
+        # Yalpalamayı önleyen anti-windup
+        if hata * self.onceki_hata <= 0:
+            self.integral = 0.0
+            
+        if ki > 0.0:
+            self.integral += hata
+            self.integral  = max(min(self.integral, self.INTEGRAL_LIMIT), -self.INTEGRAL_LIMIT)
+        else:
+            self.integral = 0.0
+            
+        p = kp * hata
+        i = ki * self.integral
+        d = kd * (hata - self.onceki_hata)
+        self.onceki_hata = hata
+        return p + i + d
+
+    def durum_belirle(self, on_min, on_genis_min, sol_min, sag_min):
+        kanal = sol_min + sag_min
+
+        # 1. Önce Çarpışma Önleyici
+        if on_min < 0.45:
+            self.pid_iptal_kilidi = False
+            return DURUM_ACIL_DUR
+        
+        # 2. SENİN FİKRİN: PİD İPTAL KİLİDİ (Bariyerden Çıkış Beklentisi)
+        # Eğer robot bariyerlere girip PID'yi devre dışı bıraktıysa...
+        if self.pid_iptal_kilidi:
+            # Önünde 2.5 metrelik DÜMDÜZ bir yol görene kadar bu moddan ASLA çıkma!
+            if on_min > 2.5: 
+                self.pid_iptal_kilidi = False
+                self.pid_sifirla() # Eski hataları çöpe at, tertemiz başla
+                self.get_logger().info('>>> YOL ACILDI! PID TEKRAR DEVREDE <<<')
+                return DURUM_DUZLUK
+            else:
+                return DURUM_PID_IPTAL
+                
+        # 3. Bariyere Girme Tespiti (PID'yi Kapatma Anı)
+        if on_min < 1.0:                         
+            self.pid_iptal_kilidi = True
+            # Hangi taraf kolaysa (genişse) oraya dönmeye karar ver ve kilitlen
+            self.sabit_donus_yonu = 1.0 if sol_min > sag_min else -1.0
+            self.get_logger().info(f'>>> BARIYERE GIRILDI! PID KAPANISI YON: {self.sabit_donus_yonu:+.0f} <<<')
+            return DURUM_PID_IPTAL
+
+        # 4. Diğer Standart PID Durumları
+        if on_min < 1.3:                           return DURUM_ENGEL
+        if kanal < 2.2:                          return DURUM_DAR_KORIDOR
+        if on_genis_min < 2.0 or on_min < 2.5:   return DURUM_VIRAJ_YAKLAS
+        return DURUM_DUZLUK
 
     def scan_callback(self, msg):
-        on_mesafeler = []
-        sol_mesafeler = []
-        sag_mesafeler = []
-        max_mesafe = 5.0 
+        on_m, on_g, sol_m, sag_m = [], [], [], []
+        MAX = 6.0
 
-        for i, mesafe in enumerate(msg.ranges):
-            if math.isinf(mesafe) or math.isnan(mesafe) or mesafe < 0.1:
-                mesafe = max_mesafe
-                
-            aci_radyan = msg.angle_min + (i * msg.angle_increment)
-            aci_derece = math.degrees(aci_radyan)
+        for i, r in enumerate(msg.ranges):
+            if math.isinf(r) or math.isnan(r) or r < 0.1:
+                r = MAX
+            deg = math.degrees(msg.angle_min + i * msg.angle_increment)
             
-            # Açı normalizasyonu: -180 ile +180 arasında tutma
-            aci_derece = ((aci_derece + 180) % 360) - 180
+            # Kör noktaları kapattığımız mükemmel sektör ayarı
+            if  -20 <= deg <=  20: on_m.append(r)
+            if  -40 <= deg <=  40: on_g.append(r)
+            if   25 <= deg <=  85: sol_m.append(r) 
+            elif -85 <= deg <= -25: sag_m.append(r)
 
-            # --- 1. HATA ÇÖZÜMÜ: SIFIR KÖR NOKTA ---
-            # Dubalar ince olduğu için ön açıyı genişlettik (-30 ile 30)
-            if -30 <= aci_derece <= 30:       
-                on_mesafeler.append(mesafe)
-            elif 30 < aci_derece <= 180:       
-                sol_mesafeler.append(mesafe)
-            elif -180 <= aci_derece < -30:     
-                sag_mesafeler.append(mesafe)
+        on_min       = min(on_m)  if on_m  else MAX
+        on_genis_min = min(on_g)  if on_g  else MAX
+        sol_min      = min(sol_m) if sol_m else MAX
+        sag_min      = min(sag_m) if sag_m else MAX
 
-        on_min = min(on_mesafeler) if on_mesafeler else max_mesafe
-        sol_min = min(sol_mesafeler) if sol_mesafeler else max_mesafe
-        sag_min = min(sag_mesafeler) if sag_mesafeler else max_mesafe
+        hata  = sol_min - sag_min
+        durum = self.durum_belirle(on_min, on_genis_min, sol_min, sag_min)
+        cmd   = Twist()
 
-        cmd = Twist()
-        
-        # --- 2. HATA ÇÖZÜMÜ: YANLARI SÜRTME KORUMASI ---
-        # Araç merkezden yanlara 0.55m taşıyor. 0.65'ten yakınına bariyer/duba girerse kurtar!
-        
-        if on_min < 1.3: # Önde duba veya duvar var
-            cmd.linear.x = 0.15 
-            if sol_min > sag_min:
-                cmd.angular.z = 1.8   
-            else:
-                cmd.angular.z = -1.8  
-            self.onceki_hata = 0.0 
-            
-        elif sol_min < 0.65: # SOL YAN bariyere sürtüyor! Hemen sağa kaç!
-            cmd.linear.x = 0.2
-            cmd.angular.z = -1.5
-            self.onceki_hata = 0.0 
-            self.get_logger().warning('Sol sürtme tehlikesi! Sağa kaçılıyor.')
-            
-        elif sag_min < 0.65: # SAĞ YAN bariyere sürtüyor! Hemen sola kaç!
-            cmd.linear.x = 0.2
-            cmd.angular.z = 1.5
-            self.onceki_hata = 0.0 
-            self.get_logger().warning('Sağ sürtme tehlikesi! Sola kaçılıyor.')
+        # ════════════════════════════════════════════════════
+        if durum == DURUM_ACIL_DUR:
+            cmd.linear.x  = 0.0
+            cmd.angular.z = 1.8 if sol_min > sag_min else -1.8
+            self.pid_sifirla()
 
-        else:
-            # PID Kontrolü
-            baz_hiz = 0.5 
-            hata = sol_min - sag_min
-            
-            # Küçük hatalar için dead-band
-            if abs(hata) < self.dead_band:
-                hata = 0.0
-                self.integral_hata = 0.0
-            else:
-                # Integrator terimi - uzun dönem hatası düzelt
-                self.integral_hata += hata
-                self.integral_hata = max(min(self.integral_hata, 2.0), -2.0)  # Anti-windup
-            
-            # P terimi: Mevcut hataya tepki
-            p_terimi = self.kp * hata
-            
-            # I terimi: Uzun dönem hatası düzeltme
-            i_terimi = self.ki * self.integral_hata
-            
-            # D terimi: Hata değişim hızına tepki (oscillation önleme)
-            turev = hata - self.onceki_hata
-            d_terimi = self.kd * turev
-            
-            # PID çıkışı
-            angular_z_raw = p_terimi + i_terimi + d_terimi
-            cmd.angular.z = max(min(angular_z_raw, 1.5), -1.5)
-            
-            # Viraj dönüşünde hızı yumuşak şekilde azalt (adaptif hız)
-            # Büyük açılarda (viraj) yavaşla, düz gidişte hızlan
-            donme_orani = abs(cmd.angular.z) / 1.5  # 0.0 - 1.0
-            hiz_faktoru = 1.0 - (donme_orani * 0.4)  # Max %40 azalma
-            cmd.linear.x = baz_hiz * hiz_faktoru
-            cmd.linear.x = max(cmd.linear.x, 0.2)  # Minimum hız
+        # SENİN KURALIN: PID TAMAMEN DEVRE DIŞI
+        elif durum == DURUM_PID_IPTAL:
+            # Sadece yavaşça ileri git ve direksiyonu kilitlediğimiz yöne tam tur çevir
+            cmd.linear.x  = 0.20
+            cmd.angular.z = self.sabit_donus_yonu * 2.5
 
-            self.onceki_hata = hata
+        elif durum == DURUM_ENGEL:
+            if self.engel_sayaci == 0:
+                self.engel_donus_yonu = 1.0 if sol_min > sag_min else -1.0
+            self.engel_sayaci += 1
+            cmd.linear.x  = 0.25
+            cmd.angular.z = self.engel_donus_yonu * 1.8
+            if self.engel_sayaci >= self.ENGEL_ESIGI:
+                self.engel_sayaci     = 0
+                self.engel_donus_yonu = 0.0
+
+        elif durum == DURUM_DAR_KORIDOR:
+            kp, ki, kd = self.adaptif_katsayilar(durum, abs(hata))
+            pid = self.pid_hesapla(hata, kp, ki, kd)
+            cmd.angular.z = max(min(pid, 1.8), -1.8)
+            cmd.linear.x  = max(0.35 - abs(cmd.angular.z) * 0.15, 0.15)
+
+        elif durum == DURUM_VIRAJ_YAKLAS:
+            kp, ki, kd = self.adaptif_katsayilar(durum, abs(hata))
+            pid = self.pid_hesapla(hata, kp, ki, kd)
+            cmd.angular.z = max(min(pid, 2.0), -2.0)
+            cmd.linear.x  = max(0.40 - abs(cmd.angular.z) * 0.15, 0.20)
+
+        else:  # DUZLUK
+            self.engel_sayaci     = 0
+            self.engel_donus_yonu = 0.0
+            kp, ki, kd = self.adaptif_katsayilar(durum, abs(hata))
+            pid = self.pid_hesapla(hata, kp, ki, kd)
+            cmd.angular.z = max(min(pid, 1.2), -1.2)
+            cmd.linear.x  = max(0.60 - abs(cmd.angular.z) * 0.25, 0.25)
 
         self.publisher.publish(cmd)
+
+        if durum != self.son_durum:
+            self.get_logger().info(
+                f'[{durum}] On:{on_min:.2f} Sol:{sol_min:.2f} Sag:{sag_min:.2f} '
+                f'H:{hata:+.2f} -> lin:{cmd.linear.x:.2f} ang:{cmd.angular.z:+.2f}'
+            )
+            self.son_durum = durum
 
 def main():
     rclpy.init()
