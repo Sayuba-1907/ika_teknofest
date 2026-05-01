@@ -76,8 +76,7 @@
       <right_joint>back_right_wheel_joint</right_joint>
       <wheel_separation>1.025</wheel_separation>
       <wheel_diameter>0.30</wheel_diameter>
-      
-      <max_wheel_torque>1000</max_wheel_torque>
+      <max_wheel_torque>200</max_wheel_torque>
       <max_wheel_acceleration>2.0</max_wheel_acceleration>
       
       <publish_odom>true</publish_odom>

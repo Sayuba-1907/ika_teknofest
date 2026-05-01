@@ -8,7 +8,6 @@ import xacro
 
 def generate_launch_description():
     pkg_name = 'ika_main'
-    # Nav2 parametre dosyanın olduğu paket adı 'ika' ise burası 'ika' kalsın
     config_pkg_name = 'ika_main'
     
     # 1. Yolları Tanımla
@@ -18,8 +17,7 @@ def generate_launch_description():
     xacro_file = os.path.join(pkg_path, 'urdf', 'ika.urdf.xacro')
     robot_description_raw = xacro.process_file(xacro_file).toxml()
     
-    # Senin hazırladığın özel Nav2 parametre dosyasının yolu
-    nav2_params_path = os.path.join(config_path, 'config', 'nav2_params.yaml')
+    # nav2_params_path = os.path.join(config_path, 'config', 'nav2_params.yaml')
 
     # 2. Robot State Publisher (Robotun eklemlerini yayınlar)
     node_robot_state_publisher = Node(
@@ -46,20 +44,20 @@ def generate_launch_description():
                                    '-Y', '3.141305'],
                         output='screen')
 
-    # 5. NAV2 Navigasyon Sistemini Başlat (Senin özel ayarlarınla)
-    nav2_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(
-            get_package_share_directory('nav2_bringup'), 'launch', 'navigation_launch.py')),
-        launch_arguments={
-            'use_sim_time': 'true',
-            'params_file': nav2_params_path
-        }.items()
-    )
+    # 5. NAV2 İPTAL EDİLDİ (Kendi kodumuzu test edeceğiz)
+    # nav2_launch = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(os.path.join(
+    #         get_package_share_directory('nav2_bringup'), 'launch', 'navigation_launch.py')),
+    #     launch_arguments={
+    #         'use_sim_time': 'true',
+    #         'params_file': nav2_params_path
+    #     }.items()
+    # )
 
     # 6. Tüm düğümleri (nodes) ROS2'ye teslim et
     return LaunchDescription([
         node_robot_state_publisher,
         gazebo,
         spawn_entity,
-        nav2_launch, # Navigasyon sistemi burada devreye giriyor
+        # nav2_launch, <-- BURAYI DA KAPATTIK
     ])

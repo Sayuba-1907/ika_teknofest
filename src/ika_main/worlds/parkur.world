@@ -15,11 +15,13 @@
     <include>
       <uri>model://ground_plane</uri>
     </include>
+    
     <include>
       <uri>model://benim_kayar_engelim</uri>
       <name>kayar_engel_otomatik</name>
       <pose>-13.915580 20.793696 0.254990 0 0 0</pose>
     </include>
+    
     <model name="ana_yol">
       <static>true</static>
       <pose>0 0 0.005 0 0 0</pose> 
@@ -155,7 +157,7 @@
 
     <model name='turuncu_duba_1'>
       <static>1</static>
-      <pose>-14.979692 10.315066 0.25 0 0 0</pose>
+      <pose>-13.518878 10.286131 0.250000 0 0 0</pose>
       <link name='link'>
         <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
         <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
@@ -165,7 +167,7 @@
 
     <model name='turuncu_duba_2'>
       <static>1</static>
-      <pose>-13.741222 8.522422 0.25 0 0 0</pose>
+      <pose>-12.511695 9.943221 0.250000 0 0 0</pose>
       <link name='link'>
         <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
         <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
@@ -175,7 +177,7 @@
 
     <model name='turuncu_duba_3'>
       <static>1</static>
-      <pose>-10.079129 10.292368 0.25 0 0 0</pose>
+      <pose>-10.139262 10.423759 0.250000 0 0 0</pose>
       <link name='link'>
         <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
         <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
@@ -185,7 +187,7 @@
 
     <model name='turuncu_duba_4'>
       <static>1</static>
-      <pose>-8.349025 9.968711 0.25 0 0 0</pose>
+      <pose>-9.923812 8.613922 0.250000 0 0 0</pose>
       <link name='link'>
         <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
         <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
@@ -195,7 +197,7 @@
 
     <model name='turuncu_duba_5'>
       <static>1</static>
-      <pose>-6.686280 8.308359 0.25 0 0 0</pose>
+      <pose>-7.922742 9.617785 0.250000 0 0 0</pose>
       <link name='link'>
         <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
         <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
@@ -205,7 +207,7 @@
 
     <model name='turuncu_duba_6'>
       <static>1</static>
-      <pose>-6.755006 10.217728 0.25 0 0 0</pose>
+      <pose>-8.994950 10.076637 0.250000 0 0 0</pose>
       <link name='link'>
         <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
         <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
@@ -215,7 +217,7 @@
 
     <model name='turuncu_duba_7'>
       <static>1</static>
-      <pose>-12.516414 10.488413 0.25 0 0 0</pose>
+      <pose>-11.232512 8.541602 0.250000 0 0 0</pose>
       <link name='link'>
         <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
         <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
@@ -225,7 +227,7 @@
 
     <model name='turuncu_duba_8'>
       <static>1</static>
-      <pose>-11.421117 8.554274 0.25 0 0 0</pose>
+      <pose>-11.245355 10.330330 0.250000 0 0 0</pose>
       <link name='link'>
         <collision name='collision'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry></collision>
         <visual name='visual'><geometry><cylinder><radius>0.1</radius><length>0.5</length></cylinder></geometry>
@@ -233,7 +235,7 @@
       </link>
     </model>
 
-    <model name='dik_engel'>
+    <model name='dik_engel_1'>
       <static>true</static>
       <pose>-19.027800 9.522151 0.086901 0.001265 0.004090 0.003263</pose>
       <link name='link'>
@@ -260,74 +262,22 @@
       </link>
     </model>
 
-    <model name='dik_engel'>
-      <static>true</static>
-      <pose>-3.050042 -0.446562 0.084925 0.001265 0.004090 0.003263</pose>
-      <link name='link'>
-        <collision name='collision'>
-          <geometry>
-            <box>
-              <size>0.2 3.0 0.15</size>
-            </box>
-          </geometry>
-        </collision>
-        <visual name='visual'>
-          <geometry>
-            <box>
-              <size>0.2 3.0 0.15</size>
-            </box>
-          </geometry>
-          <material>
-            <script>
-              <name>Gazebo/Red</name>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-            </script>
-          </material>
-        </visual>
-      </link>
-    </model>
-
-    <model name='dik_engel'>
-      <static>true</static>
-      <pose>-3.050042 -0.446562 0.084925 0.001265 0.004090 0.003263</pose>
-      <link name='link'>
-        <collision name='collision'>
-          <geometry>
-            <box>
-              <size>0.2 3.0 0.15</size>
-            </box>
-          </geometry>
-        </collision>
-        <visual name='visual'>
-          <geometry>
-            <box>
-              <size>0.2 3.0 0.15</size>
-            </box>
-          </geometry>
-          <material>
-            <script>
-              <name>Gazebo/Red</name>
-              <uri>file://media/materials/scripts/gazebo.material</uri>
-            </script>
-          </material>
-        </visual>
-      </link>
-    </model>
-
     <model name='su_gecisi_havuzu'>
-      <static>true</static>
-      <pose>-3.259201 19.544897 0.01 0 0 -1.581752</pose>
+      <static>1</static>
+      <pose>-4.305220 19.500645 0.010000 0 0 -1.581752</pose> 
       <link name='link'>
+        
         <collision name='collision'>
           <geometry>
             <box>
-              <size>3.0 4.0 0.02</size>
+              <size>3.000000 5.865910 0.020000</size>
             </box>
           </geometry>
           <surface>
             <friction>
               <ode>
-                <mu>0.1</mu> <mu2>0.1</mu2>
+                <mu>0.1</mu>
+                <mu2>0.1</mu2>
               </ode>
             </friction>
           </surface>
@@ -336,7 +286,7 @@
         <visual name='visual'>
           <geometry>
             <box>
-              <size>3.0 4.0 0.02</size>
+              <size>3.000000 5.865910 0.020000</size>
             </box>
           </geometry>
           <material>
@@ -348,6 +298,7 @@
             <diffuse>0 0.5 0.8 1</diffuse>
           </material>
         </visual>
+
       </link>
     </model>
 

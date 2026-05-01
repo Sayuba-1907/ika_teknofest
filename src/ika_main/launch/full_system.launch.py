@@ -15,10 +15,11 @@ def generate_launch_description():
     )
 
     # 2. Ana Kontrol (Beyin/Patron)
+    
     ana_kontrol = Node(
-        package=pkg_name,
-        executable='ana_kontrol',
-        output='screen'
+     package=pkg_name,
+       executable='ana_kontrol',
+       output='screen'
     )
 
     # 3. Sensör İşleme (Gözler)
@@ -46,6 +47,7 @@ def generate_launch_description():
     kayar_engel = TimerAction(
         period=8.0,
         actions=[
+            
             ExecuteProcess(
                 cmd=['python3', '-u', os.path.join(pkg_path, 'launch', 'kayar_kontrol.py')],
                 output='screen'
